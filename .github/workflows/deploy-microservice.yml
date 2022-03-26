@@ -20,22 +20,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v0
+      - name: Deploy Microservice
+        uses: ./.github/deploy-service
         with:
-          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ env.SERVICE_ACCOUNT }}
-      - name: Set up gcloud SDK
-        uses: google-github-actions/setup-gcloud@v0
-      - name: Get image path
-        id: image-path
-        shell: bash
-        run: echo "::set-output name=IMAGE_URI::gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}"
-      - name: Build image
-        shell: bash
-        run: gcloud builds submit -t ${{ steps.image-path.outputs.IMAGE_URI }} --region ${{ env.PROJECT_REGION }}
-      - name: Deploy Cloud Run
-        shell: bash
-        run: |
-          gcloud run deploy ${{ env.SERVICE_NAME }} --image ${{ steps.image-path.outputs.IMAGE_URI }} \
-          --region ${{ env.PROJECT_REGION }} --no-allow-unauthenticated
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          PROJECT_REGION: ${{ env.PROJECT_REGION }}
+          SERVICE_NAME: ${{ env.SERVICE_NAME }}
+          WORKLOAD_IDENTITY_PROVIDER: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ env.SERVICE_ACCOUNT }}
