@@ -1,0 +1,37 @@
+name: Build Image and Deploy Cloud Run
+
+inputs:
+  PROJECT_ID:
+    required: true
+  PROJECT_REGION:
+    required: true
+  WORKLOAD_IDENTITY_PROVIDER:
+    required: true
+  SERVICE_ACCOUNT:
+    required: true
+  SERVICE_NAME:
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v0
+      with:
+        workload_identity_provider: ${{ inputs.WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ inputs.SERVICE_ACCOUNT }}
+    - name: Set up gcloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+    - name: Get image path
+      id: image-path
+      shell: bash
+      run: echo "::set-output name=IMAGE_URI::gcr.io/${{ inputs.PROJECT_ID }}/${{ inputs.SERVICE_NAME }}"
+    - name: Build image
+      shell: bash
+      run: gcloud builds submit -t ${{ steps.image-path.outputs.IMAGE_URI }}
+    - name: Deploy Cloud Run
+      shell: bash
+      run: |
+        gcloud run deploy ${{ inputs.SERVICE_NAME }} --image ${{ steps.image-path.outputs.IMAGE_URI }} \
+        --region ${{ inputs.PROJECT_REGION }} --no-allow-unauthenticated
