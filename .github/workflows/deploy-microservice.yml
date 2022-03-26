@@ -1,0 +1,31 @@
+name: Deploy Microservice
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: side-project-336100
+  PROJECT_REGION: us-west1
+  SERVICE_NAME: sample-service
+  WORKLOAD_IDENTITY_PROVIDER: projects/810281168299/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+  SERVICE_ACCOUNT: wip-service-account@side-project-336100.iam.gserviceaccount.com
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy Microservice
+        uses: ./.github/deploy-service
+        with:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          PROJECT_REGION: ${{ env.PROJECT_REGION }}
+          SERVICE_NAME: ${{ env.SERVICE_NAME }}
+          WORKLOAD_IDENTITY_PROVIDER: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ env.SERVICE_ACCOUNT }}
