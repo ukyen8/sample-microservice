@@ -3,5 +3,11 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
+@app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {
+        "message": (
+            "Tutorial for combining workflow steps to "
+            + "a Composite Actions."
+        )
+    }
