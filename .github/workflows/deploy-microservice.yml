@@ -33,7 +33,7 @@ jobs:
         run: echo "::set-output name=IMAGE_URI::gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}"
       - name: Build image
         shell: bash
-        run: gcloud builds submit -t ${{ steps.image-path.outputs.IMAGE_URI }}
+        run: gcloud builds submit -t ${{ steps.image-path.outputs.IMAGE_URI }} --region ${{ env.PROJECT_REGION }}
       - name: Deploy Cloud Run
         shell: bash
         run: |
