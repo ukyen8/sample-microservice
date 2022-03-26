@@ -2,6 +2,8 @@ name: Deploy Microservice
 
 on:
   push:
+    branches:
+      - main
 
 env:
   PROJECT_ID: side-project-336100
