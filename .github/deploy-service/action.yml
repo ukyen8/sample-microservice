@@ -23,23 +23,15 @@ runs:
         workload_identity_provider: ${{ inputs.WORKLOAD_IDENTITY_PROVIDER }}
         service_account: ${{ inputs.SERVICE_ACCOUNT }}
     - name: Override
-      shell: bash
-      run: |
-        echo "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=" >> $GITHUB_ENV
-        echo ${{ env.CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE}}
-        echo "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=${{steps.auth.outputs.credentials_file_path}}" >> $GITHUB_ENV
-        echo "GOOGLE_APPLICATION_CREDENTIALS=" >> $GITHUB_ENV
-        echo ${{ env.GOOGLE_APPLICATION_CREDENTIALS}}
-        echo "GOOGLE_APPLICATION_CREDENTIALS=${{steps.auth.outputs.credentials_file_path}}" >> $GITHUB_ENV
-        echo "GOOGLE_GHA_CREDS_PATH=" >> $GITHUB_ENV
-        echo ${{ env.GOOGLE_GHA_CREDS_PATH}}
-        echo "GOOGLE_GHA_CREDS_PATH=${{steps.auth.outputs.credentials_file_path}}" >> $GITHUB_ENV
-
-        echo "CLOUDSDK_PROJECT=${{steps.auth.outputs.project_id}}" >> $GITHUB_ENV
-        echo "CLOUDSDK_CORE_PROJECT=${{steps.auth.outputs.project_id}}" >> $GITHUB_ENV
-        echo "GCP_PROJECT=${{steps.auth.outputs.project_id}}" >> $GITHUB_ENV
-        echo "GCLOUD_PROJECT=${{steps.auth.outputs.project_id}}" >> $GITHUB_ENV
-        echo "GOOGLE_CLOUD_PROJECT=${{steps.auth.outputs.project_id}}" >> $GITHUB_ENV
+      env:
+        CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: ${{steps.auth.outputs.credentials_file_path}}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{steps.auth.outputs.credentials_file_path}}
+        GOOGLE_GHA_CREDS_PATH: ${{steps.auth.outputs.credentials_file_path}}
+        CLOUDSDK_PROJECT: ${{steps.auth.outputs.project_id}}
+        CLOUDSDK_CORE_PROJECT: ${{steps.auth.outputs.project_id}}
+        GCP_PROJECT: ${{steps.auth.outputs.project_id}}
+        GCLOUD_PROJECT: ${{steps.auth.outputs.project_id}}
+        GOOGLE_CLOUD_PROJECT: ${{steps.auth.outputs.project_id}}
     - name: Set up gcloud SDK
       uses: google-github-actions/setup-gcloud@v0
     - name: Get image path
