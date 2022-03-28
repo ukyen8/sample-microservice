@@ -18,10 +18,20 @@ runs:
   steps:
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v0
+      id: auth
       with:
         workload_identity_provider: ${{ inputs.WORKLOAD_IDENTITY_PROVIDER }}
         service_account: ${{ inputs.SERVICE_ACCOUNT }}
     - name: Set up gcloud SDK
+      env:
+        CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: ${{steps.auth.outputs.credentials_file_path}}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{steps.auth.outputs.credentials_file_path}}
+        GOOGLE_GHA_CREDS_PATH: ${{steps.auth.outputs.credentials_file_path}}
+        CLOUDSDK_PROJECT: ${{steps.auth.outputs.project_id}}
+        CLOUDSDK_CORE_PROJECT: ${{steps.auth.outputs.project_id}}
+        GCP_PROJECT: ${{steps.auth.outputs.project_id}}
+        GCLOUD_PROJECT: ${{steps.auth.outputs.project_id}}
+        GOOGLE_CLOUD_PROJECT: ${{steps.auth.outputs.project_id}}
       uses: google-github-actions/setup-gcloud@v0
     - name: Get image path
       id: image-path
