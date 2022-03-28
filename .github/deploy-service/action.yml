@@ -22,7 +22,7 @@ runs:
       with:
         workload_identity_provider: ${{ inputs.WORKLOAD_IDENTITY_PROVIDER }}
         service_account: ${{ inputs.SERVICE_ACCOUNT }}
-    - name: Override
+    - name: Set up gcloud SDK
       env:
         CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: ${{steps.auth.outputs.credentials_file_path}}
         GOOGLE_APPLICATION_CREDENTIALS: ${{steps.auth.outputs.credentials_file_path}}
@@ -32,7 +32,6 @@ runs:
         GCP_PROJECT: ${{steps.auth.outputs.project_id}}
         GCLOUD_PROJECT: ${{steps.auth.outputs.project_id}}
         GOOGLE_CLOUD_PROJECT: ${{steps.auth.outputs.project_id}}
-    - name: Set up gcloud SDK
       uses: google-github-actions/setup-gcloud@v0
     - name: Get image path
       id: image-path
