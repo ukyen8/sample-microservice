@@ -6,11 +6,16 @@ on:
       - main
 
 env:
-  PROJECT_ID: side-project-336100
-  PROJECT_REGION: us-west1
+  TEST_PROJECT_ID: side-project-336100
+  TEST_PROJECT_REGION: us-west1
+  TEST_WORKLOAD_IDENTITY_PROVIDER: projects/810281168299/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+  TEST_SERVICE_ACCOUNT: wip-service-account@side-project-336100.iam.gserviceaccount.com
+  PROD_PROJECT_ID: deployment-test-345514
+  PROD_PROJECT_REGION: us-west1
+  PROD_WORKLOAD_IDENTITY_PROVIDER: projects/832472850572/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+  PROD_SERVICE_ACCOUNT: wip-service-account@deployment-test-345514.iam.gserviceaccount.com
   SERVICE_NAME: sample-service
-  WORKLOAD_IDENTITY_PROVIDER: projects/810281168299/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-  SERVICE_ACCOUNT: wip-service-account@side-project-336100.iam.gserviceaccount.com
+
 
 jobs:
   deploy:
@@ -21,11 +26,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Deploy Microservice
+      - name: Deploy Microservice - Test
         uses: ./.github/deploy-service
         with:
-          PROJECT_ID: ${{ env.PROJECT_ID }}
-          PROJECT_REGION: ${{ env.PROJECT_REGION }}
+          PROJECT_ID: ${{ env.TEST_PROJECT_ID }}
+          PROJECT_REGION: ${{ env.TEST_PROJECT_REGION }}
           SERVICE_NAME: ${{ env.SERVICE_NAME }}
-          WORKLOAD_IDENTITY_PROVIDER: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
-          SERVICE_ACCOUNT: ${{ env.SERVICE_ACCOUNT }}
+          WORKLOAD_IDENTITY_PROVIDER: ${{ env.TEST_WORKLOAD_IDENTITY_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ env.TEST_SERVICE_ACCOUNT }}
+      - name: Deploy Microservice - Prod
+        uses: ./.github/deploy-service
+        with:
+          PROJECT_ID: ${{ env.PROD_PROJECT_ID }}
+          PROJECT_REGION: ${{ env.PROD_PROJECT_REGION }}
+          SERVICE_NAME: ${{ env.SERVICE_NAME }}
+          WORKLOAD_IDENTITY_PROVIDER: ${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ env.PROD_SERVICE_ACCOUNT }}
