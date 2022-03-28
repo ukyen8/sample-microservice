@@ -39,9 +39,9 @@ runs:
       run: echo "::set-output name=IMAGE_URI::gcr.io/${{ inputs.PROJECT_ID }}/${{ inputs.SERVICE_NAME }}"
     - name: Build image
       shell: bash
-      run: gcloud builds submit -t ${{ steps.image-path.outputs.IMAGE_URI }}
+      run: gcloud builds submit -t ${{ steps.image-path.outputs.IMAGE_URI }} --project ${{ inputs.PROJECT_ID }}
     - name: Deploy Cloud Run
       shell: bash
       run: |
         gcloud run deploy ${{ inputs.SERVICE_NAME }} --image ${{ steps.image-path.outputs.IMAGE_URI }} \
-        --region ${{ inputs.PROJECT_REGION }} --no-allow-unauthenticated
+        --region ${{ inputs.PROJECT_REGION }} --no-allow-unauthenticated --project ${{ inputs.PROJECT_ID }}
