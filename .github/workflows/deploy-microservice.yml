@@ -1,8 +1,9 @@
 name: Deploy Microservice
 
-push:
-  branches:
-    - main
+on:
+  push:
+    branches:
+      - main
 
 env:
   TEST_PROJECT_ID: side-project-336100
