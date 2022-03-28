@@ -18,7 +18,7 @@ env:
 
 
 jobs:
-  deploy:
+  deploy-test:
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -34,6 +34,14 @@ jobs:
           SERVICE_NAME: ${{ env.SERVICE_NAME }}
           WORKLOAD_IDENTITY_PROVIDER: ${{ env.TEST_WORKLOAD_IDENTITY_PROVIDER }}
           SERVICE_ACCOUNT: ${{ env.TEST_SERVICE_ACCOUNT }}
+  deploy-prod:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Deploy Microservice - Prod
         uses: ./.github/deploy-service
         with:
