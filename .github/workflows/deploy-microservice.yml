@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Deploy Microservice - Test
+      - name: Deploy Microservice
         uses: ./.github/deploy-service
         with:
           PROJECT_ID: ${{ env.DEV_PROJECT_ID }}
@@ -40,7 +40,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Deploy Microservice - Prod
+      - name: Deploy Microservice
         uses: ./.github/deploy-service
         with:
           PROJECT_ID: ${{ env.PROD_PROJECT_ID }}
