@@ -6,10 +6,10 @@ on:
       - main
 
 env:
-  TEST_PROJECT_ID: side-project-336100
-  TEST_PROJECT_REGION: us-west1
-  TEST_WORKLOAD_IDENTITY_PROVIDER: projects/810281168299/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-  TEST_SERVICE_ACCOUNT: wip-service-account@side-project-336100.iam.gserviceaccount.com
+  DEV_PROJECT_ID: side-project-336100
+  DEV_PROJECT_REGION: us-west1
+  DEV_WORKLOAD_IDENTITY_PROVIDER: projects/810281168299/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+  DEV_SERVICE_ACCOUNT: wip-service-account@side-project-336100.iam.gserviceaccount.com
   PROD_PROJECT_ID: deployment-test-345514
   PROD_PROJECT_REGION: us-west1
   PROD_WORKLOAD_IDENTITY_PROVIDER: projects/832472850572/locations/global/workloadIdentityPools/my-pool/providers/my-provider
@@ -18,7 +18,7 @@ env:
 
 
 jobs:
-  deploy-test:
+  deploy-dev:
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -29,11 +29,11 @@ jobs:
       - name: Deploy Microservice - Test
         uses: ./.github/deploy-service
         with:
-          PROJECT_ID: ${{ env.TEST_PROJECT_ID }}
-          PROJECT_REGION: ${{ env.TEST_PROJECT_REGION }}
+          PROJECT_ID: ${{ env.DEV_PROJECT_ID }}
+          PROJECT_REGION: ${{ env.DEV_PROJECT_REGION }}
           SERVICE_NAME: ${{ env.SERVICE_NAME }}
-          WORKLOAD_IDENTITY_PROVIDER: ${{ env.TEST_WORKLOAD_IDENTITY_PROVIDER }}
-          SERVICE_ACCOUNT: ${{ env.TEST_SERVICE_ACCOUNT }}
+          WORKLOAD_IDENTITY_PROVIDER: ${{ env.DEV_WORKLOAD_IDENTITY_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ env.DEV_SERVICE_ACCOUNT }}
   deploy-prod:
     runs-on: ubuntu-latest
     permissions:
