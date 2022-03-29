@@ -16,13 +16,14 @@ env:
   PROD_SERVICE_ACCOUNT: wip-service-account@deployment-test-345514.iam.gserviceaccount.com
   SERVICE_NAME: sample-service
 
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
 
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      id-token: 'write'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,9 +37,6 @@ jobs:
           SERVICE_ACCOUNT: ${{ env.DEV_SERVICE_ACCOUNT }}
   deploy-prod:
     runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      id-token: 'write'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
