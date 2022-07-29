@@ -39,3 +39,4 @@ jobs:
         with:
           assignees: ${{ github.actor }}
           number: ${{ steps.create_a_pull_request.outputs.pull_request_number }}
+          github_token: ${{ secrets.MY_PAT }}
