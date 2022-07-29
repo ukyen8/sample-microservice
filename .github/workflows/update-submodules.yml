@@ -32,6 +32,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PAT }}
           PULL_REQUEST_BRANCH: "main"
+          PULL_REQUEST_FROM_BRANCH: ${{ env.NEW_BRANCH }}
           PULL_REQUEST_TITLE: ${{ env.COMMIT_MESSAGE }}
       - name: Assign an author to a PR
         uses: actions-ecosystem/action-add-assignees@v1
