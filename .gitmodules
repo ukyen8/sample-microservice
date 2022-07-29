@@ -1,0 +1,3 @@
+[submodule "shared_submodule"]
+	path = shared_submodule
+	url = https://github.com/Shawnice/shared_submodule.git
