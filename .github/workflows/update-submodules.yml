@@ -25,6 +25,7 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
+          add_options: '-u'
           commit_message: ${{ env.COMMIT_MESSAGE }}
       - name: Create a pull request
         id: create_a_pull_request
