@@ -19,12 +19,11 @@ jobs:
       - name: Update submodules
         run: |
           git submodule update --init --recursive --remote
-          echo "NEW_BRANCH=update-submodules" >> $GITHUB_ENV
+          echo "NEW_BRANCH=update-submodules-${GITHUB_SHA}" >> $GITHUB_ENV
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: ${{ env.NEW_BRANCH }}
-          create_branch: true
           commit_message: ${{ env.COMMIT_MESSAGE }}
       - name: Create a pull request
         id: create_a_pull_request
