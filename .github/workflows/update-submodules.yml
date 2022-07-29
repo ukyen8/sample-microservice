@@ -19,24 +19,7 @@ jobs:
       - name: Update submodules
         run: |
           git submodule update --init --recursive --remote
-          echo "NEW_BRANCH=update-submodules-${GITHUB_SHA}" >> $GITHUB_ENV
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          branch: ${{ env.NEW_BRANCH }}
-          create_branch: true
           commit_message: ${{ env.COMMIT_MESSAGE }}
-      - name: Create a pull request
-        id: create_a_pull_request
-        uses: vsoch/pull-request-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_PAT }}
-          PULL_REQUEST_BRANCH: "main"
-          PULL_REQUEST_FROM_BRANCH: ${{ env.NEW_BRANCH }}
-          PULL_REQUEST_TITLE: ${{ env.COMMIT_MESSAGE }}
-      - name: Assign an author to a PR
-        uses: actions-ecosystem/action-add-assignees@v1
-        with:
-          assignees: ${{ github.actor }}
-          number: ${{ steps.create_a_pull_request.outputs.pull_request_number }}
-          github_token: ${{ secrets.MY_PAT }}
